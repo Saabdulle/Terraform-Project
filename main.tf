@@ -23,3 +23,6 @@ module "Load-Balancer" {
 module "Auto-scaling" {
   source = "./Modules/Auto-Scaling"
 }
+module "DynamoDB" {
+  source = "./Modules/DynamoDB"
+}
