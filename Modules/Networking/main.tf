@@ -58,24 +58,24 @@ resource "aws_route_table_association" "public" {
 
 # Private Table
 
-resource "aws_route_table" "Private_table" {
-  vpc_id = aws_vpc.tf_project.id
+# resource "aws_route_table" "Private_table" {
+#   vpc_id = aws_vpc.tf_project.id
 
-  tags = {
-    Name = "TF-Project Private table"
-  }
-}
+#   tags = {
+#     Name = "TF-Project Private table"
+#   }
+# }
 
-resource "aws_route" "private_internet_gateway" {
-  route_table_id         = aws_route_table.Private_table.id
-  destination_cidr_block = "0.0.0.0/0"
+# resource "aws_route" "private_internet_gateway" {
+#   route_table_id         = aws_route_table.Private_table.id
+#   destination_cidr_block = "0.0.0.0/0"
 
-}
+# }
 
-resource "aws_route_table_association" "private" {
-  count          = length(var.private_subnets)
-  subnet_id      = element(aws_subnet.Private_subnets[*].id, count.index)
-  route_table_id = aws_route_table.private_table.id
-}
+# resource "aws_route_table_association" "private" {
+#   count          = length(var.private_subnets)
+#   subnet_id      = element(aws_subnet.Private_subnets[*].id, count.index)
+#   route_table_id = aws_route_table.private_table.id
+# }
 
 
