@@ -6,7 +6,6 @@ module "Networking" {
 }
 module "Security" {
     source = "./Modules/Security"
-    vpc_id = module.Networking.vpc_id
 }
 module "App-Server" {
     source = "./Modules/App-server"
