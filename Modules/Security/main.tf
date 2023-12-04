@@ -61,7 +61,7 @@ resource "aws_security_group_rule" "allow_http_ssh" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = ["2.25.44.52/32"]
+  cidr_blocks       = ["YOUR_IP_ADDRESS/32"]
   security_group_id = aws_security_group.allow_ssh.id
 }
 
@@ -71,7 +71,7 @@ resource "aws_security_group_rule" "allow_https_ssh" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = ["2.25.44.52/32"]
+  cidr_blocks       = ["YOUR_IP_ADDRESS/32"]
   security_group_id = aws_security_group.allow_https.id
 }
 resource "aws_security_group_rule" "allow_app_server" {
