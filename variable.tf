@@ -13,3 +13,12 @@ variable "availability_zones" {
 variable "cidr_block" {
   type = string
 }
+variable "instance_type" {
+  type = string
+}
+variable "key_name" {
+  type = string
+}
+variable "server_count" {
+  type = number
+}
