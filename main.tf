@@ -19,22 +19,6 @@ module "Lights" {
   count = length(var.server_names)
   server_names = var.server_names[count.index]
 }
-# module "Heating" {
-#   source            = "./Modules/Heating-Server"
-#   instance_type     = var.instance_type
-#   key_name          = var.key_name
-#   security_group_id = module.Security.security_group_id
-#   server_count      = var.server_count
-#   public_subnets    = module.Networking.public_subnets_ids
-# }
-# module "Status" {
-#   source = "./Modules/Status-Server"
-#   instance_type     = var.instance_type
-#   key_name          = var.key_name
-#   security_group_id = module.Security.security_group_id
-#   server_count      = var.server_count
-#   public_subnets    = module.Networking.public_subnets_ids
-# }
 module "Load-Balancer" {
   source = "./Modules/Load-Balancer"
 }
