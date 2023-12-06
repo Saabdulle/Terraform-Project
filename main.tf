@@ -30,4 +30,6 @@ module "Auto-scaling" {
 }
 module "DynamoDB" {
   source = "./Modules/DynamoDB"
+  table_tags = var.table_tags
+  table_names = var.table_names
 }
