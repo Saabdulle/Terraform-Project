@@ -1,3 +1,4 @@
+
 resource "aws_lb" "app_lb" {
   name               = "app-lb"
   internal           = false
