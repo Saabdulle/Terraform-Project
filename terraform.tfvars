@@ -5,3 +5,6 @@ cidr_block = "10.0.0.0/16"
 instance_type = "t2.micro"
 key_name = "project-key"
 server_count = 1
+table_names = ["Lighting-Table", "heating"]
+table_tags = ["Lights_Table", "Heating_Table"]
+server_names = ["Lights", "Heating", "Status"]

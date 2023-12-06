@@ -22,3 +22,12 @@ variable "key_name" {
 variable "server_count" {
   type = number
 }
+variable "table_names" {
+  type =list(string)
+}
+variable "table_tags" {
+  type = list(string)
+}
+variable "server_names" {
+  type = list(string)
+}

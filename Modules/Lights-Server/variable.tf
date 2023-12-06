@@ -14,3 +14,7 @@ variable "key_name" {
 variable "server_count" {
   type = string
 }
+variable "server_names" {
+  type = string
+}
+
