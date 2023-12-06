@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "lights_lb_tg" {
   vpc_id           = var.vpc_id
   target_type      = "instance"
   health_check {
-    path = "api/lights/health"
+    path = "/api/lights/health"
     port = 3000
     protocol = "HTTP"
   }
@@ -16,7 +16,7 @@ resource "aws_lb_target_group" "lights_lb_tg" {
 resource "aws_lb_target_group_attachment" "app_lb_tg_attach" {
   count            = length(var.instance_ids)
   target_group_arn = aws_lb_target_group.lights_lb_tg.arn
-  target_id        = aws_instance.instance_ids[0]
+  target_id        = aws_instance.instance_ids[count.index]
 }
 resource "aws_lb" "app_lb" {
   name               = "app-lb"

@@ -9,8 +9,8 @@ module "Security" {
   source = "./Modules/Security"
   vpc_id = module.Networking.vpc_id
 }
-module "Lights" {
-  source            = "./Modules/Lights-Server"
+module "App-Server" {
+  source            = "./Modules/App-Server"
   instance_type     = var.instance_type
   key_name          = var.key_name
   security_group_id = module.Security.security_group_id
@@ -21,6 +21,11 @@ module "Lights" {
 }
 module "Load-Balancer" {
   source = "./Modules/Load-Balancer"
+  count = length(var.server_names)
+  vpc_id = module.Networking.vpc_id
+  public_subnets = module.Networking.public_subnets_ids
+  security_group_ids = module.Security.security_group_id
+  instance_ids = module.App-Server.instance_ids[*]
 }
 module "Auto-scaling" {
   source = "./Modules/Auto-Scaling"
