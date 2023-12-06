@@ -8,5 +8,7 @@ resource "aws_instance" "home_apps_server" {
   associate_public_ip_address = true
   tags = {
     Name = "${var.server_names} server ${count.index + 1}"
+  associate_public_ip_address = true
   }
 }
+
