@@ -3,5 +3,5 @@
 *.pem
 .tfstate.backup
 *.tfvars
-*.tfstate*
+*.tfstate
 *.pem
