@@ -31,3 +31,18 @@ variable "table_tags" {
 variable "server_names" {
   type = list(string)
 }
+variable "max_size" {
+  type = number
+}
+variable "min_size" {
+  type = number
+}
+variable "desired_size" {
+  type = number
+}
+# variable "target_group_ids" {
+#   type = list(string)
+# }
+variable "ami_images" {
+  type = list(string)
+}

@@ -10,3 +10,6 @@ variable "security_group_ids" {
 variable "public_subnets" {
   type = list(string)
 }
+# variable "ami_images" {
+#   type = list(string)
+# }
