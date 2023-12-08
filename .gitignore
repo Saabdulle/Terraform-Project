@@ -5,4 +5,4 @@
 *.tfvars
 *.tfstate
 *.pem
-.tfstate.backup
+terraform.tfstate.backup
