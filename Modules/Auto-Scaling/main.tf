@@ -3,6 +3,7 @@
 #   name               = "${var.server_names[count.index]}_app_ami_instance"
 #   source_instance_id = var.instance_ids[count.index]
 # }
+# aws_ami_from_instance can be used if you want to do  loop over the instance ids. 
 
 resource "aws_launch_template" "app_lt" {
   count         = length(var.server_names)
@@ -14,7 +15,7 @@ resource "aws_launch_template" "app_lt" {
   network_interfaces {
     subnet_id                   = var.public_subnets[count.index]
     associate_public_ip_address = true
-    security_groups            = [var.security_group_ids]
+    security_groups             = [var.security_group_ids]
   }
 
   tag_specifications {
@@ -32,18 +33,16 @@ resource "aws_autoscaling_group" "app_asg" {
   max_size            = var.max_size
   desired_capacity    = var.desired_size
   vpc_zone_identifier = [var.public_subnets[count.index]]
-  # target_group_arns = var.target_group_ids
 
   launch_template {
     id      = aws_launch_template.app_lt[count.index].id
     version = aws_launch_template.app_lt[count.index].latest_version
 
   }
-
 }
 resource "aws_autoscaling_attachment" "app_as_attach" {
-  count = length(var.server_names)
+  count                  = length(var.server_names)
   autoscaling_group_name = aws_autoscaling_group.app_asg[count.index].id
-  lb_target_group_arn = var.target_group_ids[count.index]
-  
+  lb_target_group_arn    = var.target_group_ids[count.index]
+
 }

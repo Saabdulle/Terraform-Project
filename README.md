@@ -1,55 +1,103 @@
-# Terraform project
+# Project README
 
-![A hero starting their journey looking at a tower](./media/images/journey.png "A hero starting their journey looking at a tower")
+## Overview
 
-It is time to take those Terraform skills you have been developing and create your own project.
+This project involves setting up a Virtual Private Cloud (VPC) in the AWS cloud environment, deploying three services (Lighting, Heating, and Status) that interact with a DynamoDB table, and creating an Application Load Balancer for these services. The infrastructure is defined using Terraform, and it adheres to the specified requirements.
 
-Time to start your journey and create a brand new Terraform project from scratch.
+## VPC Setup
 
-Side note: The image is what AI generated when the words "success, journey and terraform logo" were put into the tool 🤷
+1. **Region**: The VPC is created in the specified region.
 
-You can find the trello board to copy for your project below
+2. **Availability Zones (AZs)**: The VPC spans three Availability Zones.
 
-[Cloud Ops Terraform Project Template](https://trello.com/b/ANaPDxTY/ce-terraform-project-template)
+3. **Subnets**:
+   - Public subnets: One in each AZ.
+   - Private subnets: One in each AZ.
 
-## Requirements
+4. **Internet Gateway (IGW)**: An Internet Gateway is created to allow external communication.
 
-The target for this project is to create a hosted network of microservices that mocks a smart home network with; a central status service, a lighting service, and a heating service.
+5. **Route Table**: A route table is configured to handle local traffic and route other traffic to the Internet Gateway.
 
-But that isn't everything....
+## Security Groups
 
-Your solution should;
+Security groups have been set up for the subnets to allow ingress and egress for HTTP and HTTPS requests on the correct ports from all external sources. Additionally, SSH access is configured for your IP address.
 
-- Be completed using terraform
-- Be a production ready network setup with both public and private subnets
-- Make use of terraform variables and looping where possible
-- Make your code as DRY and reusable as possible by creating modules where you can
-- Have DynamoDB tables to account for the services that need them
-- Be created with 'design for failure' in mind - we do not want a loss of service if one of the EC2 instances fails
-- Be considerate and intentional of how your files and directory structures are named
+## Lighting Service
 
-[Here](https://trello.com/b/ANaPDxTY/ce-terraform-project-template) you will find a trello board with the tickets needed to finish this project.
+1. The Lighting service is hosted and configured to be accessible externally.
 
-## Tearing things down
+2. The service interacts with a DynamoDB table in the network.
 
-You should run `terraform destroy` to remove everything at the end of each day, if you've created your code well it should be able to recreate each time without issue.
+3. IAM User: A user with policies to access DynamoDB, CLI access, and credentials provided in environment files.
 
-## Submission process
+4. IAM Role for Service: Another IAM user for the Lighting service with a policy allowing it to interact with DynamoDB.
 
-1. Fork this GitHub repository
+## Heating Service
 
-2. Make a branch for each tickets code `git checkout -b NEW_BRANCH_NAME`
+1. The Heating service is hosted and configured to be accessible externally.
 
-3. Create a Pull Request and merge the branch back into main on GitHub when the ticket is done
+2. The service interacts with a DynamoDB table in the network.
 
-4. Submit the Pull Request link to `nchelp pr`
+## Status Service
 
-5. Checkout back to the main branch `git checkout main` and pull your code to the main branch `git pull origin main`
+1. The Status service is hosted and configured to be accessible externally.
 
-6. Create a new branch for the next ticket and repeat until finished.
+2. The service interacts with other services to aggregate information on one endpoint.
 
-## Further reading
+## Load Balancer
 
-[Terraform directory structure tips](https://xebia.com/blog/four-tips-to-better-structure-terraform-projects/)
+An Application Load Balancer is created with path-based routing to connect to each service, avoiding the need for three separate load balancers.
 
-[Terraform best practices structure](https://www.terraform-best-practices.com/examples/terraform)
+## Autoscaling
+
+Autoscaling groups are set up for each service with specified configurations in the `tfvars` file. This includes minimum, maximum, and desired instances, instance type, and AMI images.
+
+## `terraform.tfvars` Configuration
+
+Ensure your `terraform.tfvars` file contains the following information:
+
+```hcl
+public_subnets     = ["10.0.7.0/24", "10.0.8.0/24", "10.0.9.0/24"]
+private_subnets    = ["10.0.10.0/24", "10.0.11.0/24", "10.0.12.0/24"]
+availability_zones = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
+cidr_block         = "10.0.0.0/16"
+instance_type      = "t2.micro"
+key_name           = "key_name"
+server_count       = 1
+table_names        = ["Lights-Table", "Heating-Table"]
+table_tags         = ["Lights_Table", "Heating_Table"]
+server_names       = ["Lights", "Heating", "Status"]
+min_size           = 1
+max_size           = 5
+desired_size       = 2
+ami_images         = ["ami", "ami", "ami"]  # Replace with actual AMI IDs
+```
+
+Replace placeholder values in the `tfvars` file with your actual configurations.
+
+## Execution
+
+1. Ensure that Terraform is installed on your local machine.
+
+2. Run the following commands in the project directory:
+
+    - ```terraform init```
+    - ```terraform plan ```
+    - ```terraform apply```
+
+
+3. Terraform will prompt for confirmation. Type "yes" to proceed with the infrastructure deployment.
+
+4. Wait for Terraform to complete the deployment.
+
+5. To destroy the infrastructure and resources created by Terraform:
+
+    - ```terraform destroy```
+
+## Notes
+
+- Make sure to handle sensitive information securely, especially IAM credentials and environment files.
+- Avoid committing sensitive information to version control systems.
+
+
+Congratulations! Your AWS infrastructure for the project is now set up.

@@ -23,7 +23,7 @@ variable "server_count" {
   type = number
 }
 variable "table_names" {
-  type =list(string)
+  type = list(string)
 }
 variable "table_tags" {
   type = list(string)

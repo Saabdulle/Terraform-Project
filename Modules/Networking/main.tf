@@ -78,4 +78,4 @@ resource "aws_route_table_association" "public" {
 #   route_table_id = aws_route_table.private_table.id
 # }
 
-
+# Above is resource for private tables that will also need 
